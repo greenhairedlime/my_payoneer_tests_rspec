@@ -25,7 +25,7 @@ RSpec.feature 'SignPage functionality' do
     expect(SignUpPage.given.text).to include('Please enter the same value again')
   end
 
-  scenario 'User can not pass the Getting Started section with incorrect credentials(Email and retyped email are different).' do
+  scenario 'User can not pass the Getting Started section with incorrect credentials.' do
     HomePage.open.open_sign_up_page
     SignUpPage.given.fill_get_start(firstname: '',
                                     lastname: '',
@@ -34,6 +34,8 @@ RSpec.feature 'SignPage functionality' do
                                     month: '3',
                                     year: '1989',
                                     day: '22')
+    expect(SignUpPage.given.text).to include('The first name field is required.')
+    expect(SignUpPage.given.text).to include('The last name field is required.')
     expect(SignUpPage.given.text).to include('Please enter the same value again')
   end
 end
