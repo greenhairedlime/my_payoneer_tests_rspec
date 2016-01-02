@@ -2,7 +2,7 @@ require 'rspec'
 require 'capybara/rspec'
 require_relative '../boot'
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
 
 RSpec.configure do |config|
   log.settings_as_formatted_text
@@ -13,6 +13,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Capybara::Settings
   config.include Capybara::RSpecMatchers
+  config.include Capybara::DSL
 
   config.disable_monkey_patching = true
   config.color = true
@@ -25,13 +26,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    scenario_name =
-      if RSpec.current_example.description.empty?
-        RSpec.current_example.metadata[:full_description]
-      else
-        RSpec.current_example.description
-      end
-    log.print_scenario_name(scenario_name)
+    log.print_scenario_name(RSpec.current_example.description.empty? ? RSpec.current_example.metadata[:full_description] : RSpec.current_example.description)
     @session_start = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
   end
 
@@ -39,7 +34,7 @@ RSpec.configure do |config|
     DataStorage.clear_all_ns
     if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
-      log.info "SAUCE VIDEO #{@session_start} - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+      log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
     elsif ie_browser?
       log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")

@@ -8,7 +8,7 @@
 ###########################################################
 # app_base_auth_login: login
 # app_base_auth_pass: pass
- app_protocol: http
+ app_protocol: https
  app_host: www.payoneer.com
 
  def_test_user: test@test.com
