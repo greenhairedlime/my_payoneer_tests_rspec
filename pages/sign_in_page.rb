@@ -1,6 +1,6 @@
 class SignInPage
   url '/partners/or.aspx?pid=Y0LwV0AQC7cY%2b5AIqsZl1g%3d%3d'
-  validate :url, pattern: %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}
+ # validate :url, pattern: %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}
 
   add_field_locator :fname_input, xpath: '//*[@id="txtFirstName"]'
   add_field_locator :lname_input, xpath: '//*[@id="txtLastName"]'
