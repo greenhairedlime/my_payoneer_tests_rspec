@@ -6,8 +6,8 @@
 ###########################################################
 # APPLICATION SETTINGS                                    #
 ###########################################################
- app_base_auth_login: login
- app_base_auth_pass: pass
+# app_base_auth_login: login
+# app_base_auth_pass: pass
  app_protocol: http
  app_host: www.payoneer.com
 
