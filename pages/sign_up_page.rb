@@ -8,12 +8,25 @@ class SignUpPage < WebPage
   add_field_locator :rtp_email_input, xpath: '//*[@id="txtRetypeEmail"]'
 
   add_button_locator :calendar_btn, xpath: '//*[@id="PersonalDetails"]/div[1]/div/div[11]/div[2]/button[1]'
-  add_locator :select_date, xpath: '//*[@id="ui-datepicker-div"]/div/div/select[1]'
-  add_locator :select_month, xpath: '//*[@id="ui-datepicker-div"]/div/div/select[2]'
-  add_locator :select_date, xpath: '//*[@id="ui-datepicker-div"]/table/tbody/tr[3]/td[4]/a'
+  add_locator :select_month, xpath: '//*[@id="ui-datepicker-div"]/div/div/select[1]'
+  add_locator :select_year, xpath: '//*[@id="ui-datepicker-div"]/div/div/select[2]'
+  # add_locator :select_date, ->(day) {{"#{day}"}}
 
-  def fill_get_start
+  # add_button_locator :next_btn, 'PersonalDetailsButton'
+  add_locator :next_btn, ->(section) {{xpath: ".//*[@id='#{section}Button']"}}
 
+  def fill_get_start(firstname: nil, lastname: nil, email: nil, rtpemail: nil, month: nil, year: nil, day: nil)
+    log.info('Fill in form Getting Started')
+    fill_in(field_locator(:fname_input),with: firstname ) unless fname_input.nil?
+    fill_in(field_locator(:lname_input),with: lastname ) unless lname_input.nil?
+    fill_in(field_locator(:email_input),with: email ) unless email_input.nil?
+    fill_in(field_locator(:rtp_email_input),with: rtpemail ) unless rtp_email_input.nil?
+    click_button button_locator(:calendar_btn)
+    find(locator(:select_month)).find(month).click
+    find(locator(:select_year)).find(year).click
+    add_link_locator :select_date, "#{day}"
+    find(:select_date).click
+    self
   end
 
   # add_button_locator :next_btn, xpath '//*[@value="Next"]'
@@ -24,8 +37,8 @@ class SignUpPage < WebPage
     click_link :select_date
   end
 
-  def next
-    click_button :next
+  def click_next(section)
+    find(apply(locator(:next_btn), section)).click
   end
 end
 
